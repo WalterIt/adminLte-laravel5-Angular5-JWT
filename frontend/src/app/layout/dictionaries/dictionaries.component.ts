@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { routerTransition } from '../../router.animations';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-dictionaries',
   templateUrl: './dictionaries.component.html',
-  styleUrls: ['./dictionaries.component.scss']
+  styleUrls: ['./dictionaries.component.scss'],
+  animations: [routerTransition()]
 })
 export class DictionariesComponent implements OnInit {
 

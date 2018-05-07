@@ -10,6 +10,27 @@
         </a>
 
 
+        <a [routerLink]="['/dictionaries']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <span><i class="fa fa-book"></i>&nbsp; {{ 'Dictionaries' | translate }}</span>
+        </a>
+
+        <div class="nested-menu">
+            <a class="list-group-item" (click)="addExpandClass('pages')">
+                <span><i class="fa fa-book"></i>&nbsp; {{ 'Dictionaries' | translate }}</span>
+            </a>
+            <li class="nested" [class.expand]="showMenu === 'pages'">
+                <ul class="submenu">
+                    <li>
+                        <a [routerLink]="['/dictionaries']" [routerLinkActive]="['router-link-active']" class="list-group-books"><span>{{ 'Main' | translate }}</span></a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/secondary']" [routerLinkActive]="['router-link-active']" class="list-group-item"><span>{{ 'Secondary' | translate }}</span></a>
+                    </li>
+
+                </ul>
+            </li>
+        </div>
+
         <a [routerLink]="['/charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Charts' | translate }}
         </a>

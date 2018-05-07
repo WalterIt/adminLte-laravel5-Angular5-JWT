@@ -12,16 +12,9 @@ const routes: Routes = [
             { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },
 
             // Users
-            { path: 'users', loadChildren: './users/users.module#UsersModule',
-             /* children: [
-                { path: '', redirectTo: 'users' }
+            { path: 'users', loadChildren: './users/users.module#UsersModule'},
 
-                { path: 'members', loadChildren: './users/members/members.module#MembersModule' },
-                { path: 'partners', loadChildren: './users/partners/partners.module#PartnersModule'}
-
-            ]*/
-
-        },
+            { path: 'dictionaries', loadChildren: './dictionaries/dictionaries.module#DictionariesModule'},
 
             { path: 'tables', loadChildren: './tables/tables.module#TablesModule' },
             { path: 'forms', loadChildren: './form/form.module#FormModule' },
