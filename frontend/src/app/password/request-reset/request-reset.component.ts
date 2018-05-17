@@ -25,6 +25,7 @@ export class RequestResetComponent implements OnInit {
   }
 
   onSubmit() {
+      this.notify.info('Processing... ', {timeout: 3000});
       this.httcall.sendPasswordResetLink(this.form).subscribe(
           data => this.handleResponse(data),
           error => this.notify.error(error.error.error)
@@ -32,6 +33,7 @@ export class RequestResetComponent implements OnInit {
   }
 
   handleResponse(res) {
+      this.notify.success(res.data, {timeout: 0}); // timeout: 0 -> default value  2s
       this.form.email = null;
 
   }

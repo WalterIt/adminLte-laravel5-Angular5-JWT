@@ -3,54 +3,69 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use App\User;
+use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ResetPasswordMail;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class ResetPasswordController extends Controller
 {
-    public function sendEmail(Request $request) 
+    public function sendEmail(Request $request)
     {
-        // return $request->all();  DEBUG
-        if(!$this->validateEmail($request->email)) {
-
+        if (!$this->validateEmail($request->email)) {
             return $this->failedResponse();
-            return $this->successResponse();
         }
 
         $this->send($request->email);
-
+        return $this->successResponse();
     }
 
     public function send($email)
     {
-        Mail::to($email)->send(new ResetPasswordMail());
+        $token = $this->createToken($email);
+        Mail::to($email)->send(new ResetPasswordMail($token));
     }
 
-    
-    public function validateEmail($email) {
+    public function createToken($email)
+    {
+        $oldToken = DB::table('password_resets')->where('email', $email)->first();
 
-        return !!User::where('email', $email)->first(); // The !! means boolean
+        if ($oldToken) {
+            return $oldToken->token;
+        }
 
+        $token = str_random(60);
+        $this->saveToken($token, $email);
+        return $token;
     }
-    
-    
+
+    public function saveToken($token, $email)
+    {
+        DB::table('password_resets')->insert([
+            'email' => $email,
+            'token' => $token,
+            'created_at' => Carbon::now()
+        ]);
+    }
+
+    public function validateEmail($email)
+    {
+        return !!User::where('email', $email)->first();
+    }
+
     public function failedResponse()
     {
         return response()->json([
-            'error' => 'Email does not exist on our database!'
-        ], 
-        Response::HTTP_NOT_FOUND);  // import -> use Symfony\Component\HttpFoundation\Response;
+            'error' => 'Email was not found on our database'
+        ], Response::HTTP_NOT_FOUND);
     }
 
     public function successResponse()
-    { 
+    {
         return response()->json([
-            'data' => 'Reset Email was sent successfully. Please, check your email!'
-        ], 
-        Response::HTTP_OK);  // import -> use Symfony\Component\HttpFoundation\Response;
+            'data' => 'Reset Email was sent successfully, please check your inbox.'
+        ], Response::HTTP_OK);
     }
-
-
 }

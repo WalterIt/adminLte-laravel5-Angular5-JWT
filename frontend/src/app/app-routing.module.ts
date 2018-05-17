@@ -10,6 +10,9 @@ const routes: Routes = [
 
     { path: 'request-password-reset', loadChildren: './password/request-reset/request-reset.module#RequestResetModule'},
 
+    // tslint:disable-next-line:max-line-length
+    { path: 'response-password-reset', loadChildren: './password/response-reset/response-reset.module#ResponseResetModule'},
+
     { path: 'error', loadChildren: './server-error/server-error.module#ServerErrorModule' },
     { path: 'access-denied', loadChildren: './access-denied/access-denied.module#AccessDeniedModule' },
     { path: 'not-found', loadChildren: './not-found/not-found.module#NotFoundModule' },
